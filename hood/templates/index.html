@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static%}
+<br>
+<style>
+    .container-fluid {
+        margin-left: 5%;
+        margin-right: 5%;
+
+    }
+
+    .text-box{
+    font-size: 60px;
+    font-family: Impact;
+    }
+    .anim{
+        display: inline-block;
+        font-weight: bolder;
+        animation: mover 6s linear infinite;
+        color: white;
+    }
+    @keyframes mover{
+        0%{
+            text-shadow: 0 0 30px rgba(0,0,0,0);
+        }
+        50%{
+            text-shadow: 0 0 30px rgba(0,0,0,0.30);
+            transform: translateY(30px);
+        }
+        100%{
+            text-shadow: 0 0 30px rgba(0,0,0,0);
+        }
+    }
+    .anim:nth-child(1)
+    {
+       animation-delay: 0.5s;
+    }
+    .anim:nth-child(2)
+    {
+       animation-delay: 1s;
+    }
+    .anim:nth-child(3)
+    {
+       animation-delay: 1.5s;
+    }
+    .anim:nth-child(4)
+    {
+       animation-delay: 2s;
+    }
+    .anim:nth-child(5)
+    {
+       animation-delay: 2.5s;
+    }
+    .anim:nth-child(6)
+    {
+       animation-delay: 3s;
+    }
+    .anim:nth-child(7)
+    {
+       animation-delay: 3.5s;
+    }
+    .anim:nth-child(8)
+    {
+       animation-delay: 4s;
+    }
+    .anim:nth-child(9)
+    {
+       animation-delay: 4.5s;
+    }
+    .anim:nth-child(10)
+    {
+       animation-delay: 5s;
+    }
+    .anim:nth-child(11)
+    {
+       animation-delay: 5.5s;
+    }
+    .anim:nth-child(12)
+    {
+       animation-delay: 6s;
+    }
+    
+    .line{
+        border: 2px solid black;
+    }
+  
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    
+
+</style>
+<div class="container-fluid ">
+    <div class="headers " style="background: #db6930; margin: 0; color: white;">
+    <div class="text-box text-center " >
+       <span class="anim">N</span>
+       <span class="anim">E</span>
+       <span class="anim">I</span>
+       <span class="anim">G</span>
+       <span class="anim">H</span>
+       <span class="anim">B</span>
+       <span class="anim">O</span>
+       <span class="anim">R</span>
+       <span class="anim">H</span>
+       <span class="anim">O</span>
+       <span class="anim">O</span>
+       <span class="anim">D</span> 
+    </div>
+    
+    <div class="serch text-center" style="margin-top: 1.5em;">
+        <form class="navbar-form form-inline" role="search" action="{% url 'search' %}">
+            <div class="input-group search-box">
+                <input type="text" id="search" class="form-control" placeholder="Search business..." name="business">
+                <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center" style="margin-top: 1.5em;">
+        <button><a href="{%url 'new_business'%}"><i class="fa fa-plus-circle"></i><span>Add Neighborhood</span></a></button>
+    </div>
+
+    <div >
+        <hr class="line">
+    </div>
+</div>
+
+    <div class="row">
+
+        {% for hood in hoods %}
+        <div class="col-lg-6" >
+            <div
+                style="background-color: rgb(250, 246, 246);box-sizing: border-box; margin-top:2%;box-shadow: 0vh 0vh 1vh gainsboro;">
+                <div class="row" style="padding-top: 1%">
+                    <div class="col-md-12">
+                        <h4 style="font-weight:600;">Name: <a href="{% url 'view_hood' id=hood.id %}" class="text-right"
+                                style="text-decoration: none;">{{hood.hood_name}}
+                                <img src="https://img.icons8.com/color/48/000000/circled-up-right--v1.png"
+                                    style="width:15px;height:auto" />
+                            </a></4>
+
+                    </div>
+                </div>
+                <div class="row" style="font-size:10pt;">
+                    <div class="col-md-6" style="padding-bottom: 2%;font-weight:600;"> Location: {{hood.hood_location}}
+                    </div>
+                </div>
+                <div class="">
+                    <a href="{% url 'view_hood' id=hood.id %}">
+                        <img src="{{hood.hood_photo.url}}" class="img-responsive" alt="{{image.hood_name}}"
+                            style="width:100%;width:100%">
+                        <div class="overlay">
+                        </div>
+                    </a>
+                </div>
+
+
+                <div style="padding-top:1%;padding-bottom:1%">
+                    {%if request.user.profile.neighbourhood == hood %}
+
+                    <a class="btn btn-warning" href="{%url 'leavehood' hood.id%}">Leave Hood</a>
+
+                    {%elif not request.user.profile.neighbourhood%}
+
+
+                    <a class="btn btn-info" href="{%url 'joinhood' hood.id%}">Join Hood</a>
+
+                    {%endif%}
+                </div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+</div>
+<div style="background: #db6930;">
+<img src="/static/img/wave2.png" alt="" class="bottom-img">
+</div>
+<div style="background: #db6930;">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <p class="text-center" style="font-size: 28px;">&copy; 2021 Company, Inc</p>
+
+  </footer>
+</div>
+
+{% endblock %}
+
